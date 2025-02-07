@@ -59,7 +59,7 @@ def sign_eip712_message(private_key, wallet_address, signature_deadline):
         "domain": {
             "name": "Reya",
             "version": "1",
-            "verifyingContract": "0x4f0d39f31c21135cbaf485f9e95c1a4e235623f8"
+            "verifyingContract": "0xce0c48b15a305f4675ced41ccebdc923d03b9b81"
         },
         "message": {
             "verifyingChainId": 1729,  # Число
@@ -120,7 +120,7 @@ with Progress() as progress:
                     latest_version = tos_response.json()
 
                 # Step 2: Get voting power and check if already voted
-                vote_power_url = f"https://api.reya.xyz/api/vote/rnip2/user/{wallet_address}"
+                vote_power_url = f"https://api.reya.xyz/api/vote/rnip3/user/{wallet_address}"
                 vote_power_response = requests.get(vote_power_url, proxies=proxy)
                 vote_power_data = vote_power_response.json()
                 vote_power = vote_power_data['votingPower']
@@ -147,7 +147,7 @@ with Progress() as progress:
                 signature = signature_data['signature']
 
                 # New Step: Fetch contract details
-                contract_details_url = "https://api.reya.xyz/api/vote/contract-details/rnip2"
+                contract_details_url = "https://api.reya.xyz/api/vote/contract-details/rnip3"
                 contract_details_response = requests.get(contract_details_url, proxies=proxy)
                 contract_details = contract_details_response.json()
 
@@ -161,7 +161,7 @@ with Progress() as progress:
                 signed_signature = sign_eip712_message(private_key, wallet_address, signature_deadline)
 
                 # Step 5: Submit the vote
-                vote_url = "https://api.reya.xyz/api/vote/0x4f0d39f31c21135cbaf485f9e95c1a4e235623f8/vote"
+                vote_url = "https://api.reya.xyz/api/vote/0xce0c48b15a305f4675ced41ccebdc923d03b9b81/vote"
                 vote_payload = {
                     "voter": wallet_address,
                     "isYesVote": "yes",
